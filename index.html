@@ -1,1 +1,344 @@
-<p>test</p>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f5f0">
+  <title>サンレンタン</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: system-ui, -apple-system, "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+      color: #252b2a;
+      background: #f6f5f0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      min-height: 100dvh;
+    }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    button:focus-visible {
+      outline: 3px solid #d88a46;
+      outline-offset: 3px;
+    }
+
+    .app {
+      width: min(100%, 480px);
+      margin: 0 auto;
+      padding: max(20px, env(safe-area-inset-top)) 24px max(32px, env(safe-area-inset-bottom));
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 38px;
+    }
+
+    .brand {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: .12em;
+    }
+
+    .header-actions { display: flex; gap: 10px; }
+
+    .icon-button {
+      display: grid;
+      width: 46px;
+      height: 46px;
+      place-items: center;
+      border: 1px solid #deded5;
+      border-radius: 14px;
+      color: #354d46;
+      background: #fff;
+    }
+
+    .icon-button[aria-pressed="true"] {
+      color: #fff;
+      border-color: #354d46;
+      background: #354d46;
+    }
+
+    .material-symbols-outlined {
+      font-size: 25px;
+      font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+    }
+
+    .section-heading {
+      margin: 0 0 7px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .15em;
+      color: #75827b;
+    }
+
+    .hint {
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.6;
+      color: #7d8580;
+    }
+
+    .selected {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin: 18px 0 38px;
+    }
+
+    .rank-label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 12px;
+      font-weight: 800;
+      text-align: center;
+      color: #75827b;
+    }
+
+    .selected-card {
+      display: grid;
+      width: 100%;
+      aspect-ratio: 1.4;
+      place-items: center;
+      border: 1px dashed #cbd0c8;
+      border-radius: 14px;
+      color: #354d46;
+      background: #edeee8;
+      font-size: 28px;
+      font-weight: 800;
+    }
+
+    .selected-card.has-card {
+      border: 1px solid #d6dfd8;
+      background: #fff;
+      box-shadow: 0 3px 10px #273c2c0a;
+    }
+
+    .selected-card:disabled { cursor: default; }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .choice-card {
+      min-height: 80px;
+      aspect-ratio: 1.8;
+      border: 1px solid #deded5;
+      border-radius: 16px;
+      color: #354d46;
+      background: #fff;
+      box-shadow: 0 4px 12px #273c2c0a;
+      font-size: 30px;
+      font-weight: 800;
+    }
+
+    .choice-card:disabled {
+      cursor: default;
+      color: #b7beb8;
+      border-color: #e4e6df;
+      background: #edeee8;
+      box-shadow: none;
+    }
+
+    .reveal-list {
+      display: grid;
+      gap: 18px;
+      margin-top: 25px;
+    }
+
+    .reveal-row {
+      display: grid;
+      grid-template-columns: 44px minmax(0, 1fr);
+      align-items: center;
+      gap: 14px;
+    }
+
+    .reveal-rank {
+      text-align: center;
+      font-size: 30px;
+      font-weight: 800;
+      color: #354d46;
+    }
+
+    .reveal-card {
+      display: grid;
+      width: 100%;
+      min-height: 106px;
+      aspect-ratio: 2.2;
+      place-items: center;
+      border: 4px solid #fff;
+      border-radius: 18px;
+      color: #fff;
+      background: repeating-linear-gradient(135deg, #496a5d 0 9px, #527464 9px 18px);
+      box-shadow: 0 2px 0 #d9e0d9, 0 5px 15px #273c2c12;
+      font-size: 36px;
+      font-weight: 800;
+    }
+
+    .reveal-card.is-revealed {
+      border: 1px solid #d6dfd8;
+      color: #354d46;
+      background: #fff;
+    }
+
+    .reveal-card.is-empty {
+      border: 1px dashed #cbd0c8;
+      background: #edeee8;
+      box-shadow: none;
+      cursor: default;
+    }
+
+    [hidden] { display: none !important; }
+
+    @media (max-width: 340px) {
+      .app { padding-right: 16px; padding-left: 16px; }
+      .selected { gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header class="header">
+      <h1 class="brand">サンレンタン</h1>
+      <div class="header-actions">
+        <button class="icon-button" id="mode-button" type="button" aria-label="表示モードに切り替え" aria-pressed="false">
+          <span class="material-symbols-outlined" aria-hidden="true">done_outline</span>
+        </button>
+        <button class="icon-button" id="reset-button" type="button" aria-label="リセット">
+          <span class="material-symbols-outlined" aria-hidden="true">restart_alt</span>
+        </button>
+      </div>
+    </header>
+
+    <section id="selection-screen" aria-label="カード選択">
+      <h2 class="section-heading">YOUR SELECTION</h2>
+      <p class="hint">カードを選んで、順位を決めましょう</p>
+      <div class="selected" id="selected-cards"></div>
+      <h2 class="section-heading">CARDS</h2>
+      <p class="hint">選んだカードはタップで取り消せます</p>
+      <div class="card-grid" id="card-grid"></div>
+    </section>
+
+    <section id="reveal-screen" aria-label="カード表示" hidden>
+      <h2 class="section-heading">YOUR SELECTION</h2>
+      <p class="hint">カードをタップして表にしましょう</p>
+      <div class="reveal-list" id="reveal-list"></div>
+    </section>
+  </main>
+
+  <script>
+    const cards = ["A", "B", "C", "D", "E", "F", "G"];
+    const selected = [];
+    const revealed = [false, false, false];
+    let displayMode = false;
+
+    const selectionScreen = document.getElementById("selection-screen");
+    const revealScreen = document.getElementById("reveal-screen");
+    const selectedCards = document.getElementById("selected-cards");
+    const cardGrid = document.getElementById("card-grid");
+    const revealList = document.getElementById("reveal-list");
+    const modeButton = document.getElementById("mode-button");
+    const resetButton = document.getElementById("reset-button");
+
+    function render() {
+      selectionScreen.hidden = displayMode;
+      revealScreen.hidden = !displayMode;
+      modeButton.setAttribute("aria-pressed", String(displayMode));
+      modeButton.setAttribute("aria-label", displayMode ? "カード選択に戻る" : "表示モードに切り替え");
+
+      selectedCards.replaceChildren();
+      for (let index = 0; index < 3; index++) {
+        const item = document.createElement("div");
+        const label = document.createElement("span");
+        const button = document.createElement("button");
+        const card = selected[index];
+        label.className = "rank-label";
+        label.textContent = `${index + 1}位`;
+        button.type = "button";
+        button.className = `selected-card${card ? " has-card" : ""}`;
+        button.textContent = card || "";
+        button.disabled = !card;
+        button.setAttribute("aria-label", card ? `${index + 1}位の${card}を取り消す` : `${index + 1}位は未選択`);
+        button.addEventListener("click", () => {
+          selected.splice(index, 1);
+          render();
+        });
+        item.append(label, button);
+        selectedCards.append(item);
+      }
+
+      cardGrid.replaceChildren();
+      for (const card of cards) {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "choice-card";
+        button.textContent = card;
+        button.disabled = selected.includes(card) || selected.length === 3;
+        button.setAttribute("aria-label", selected.includes(card) ? `${card} 選択済み` : `${card}を選ぶ`);
+        button.addEventListener("click", () => {
+          selected.push(card);
+          render();
+        });
+        cardGrid.append(button);
+      }
+
+      revealList.replaceChildren();
+      for (let index = 0; index < 3; index++) {
+        const row = document.createElement("div");
+        const rank = document.createElement("span");
+        const button = document.createElement("button");
+        const card = selected[index];
+        rank.className = "reveal-rank";
+        rank.textContent = index + 1;
+        button.type = "button";
+        button.className = `reveal-card${!card ? " is-empty" : revealed[index] ? " is-revealed" : ""}`;
+        button.textContent = card && revealed[index] ? card : "";
+        button.disabled = !card || revealed[index];
+        button.setAttribute("aria-label", !card ? `${index + 1}位は未選択` : revealed[index] ? `${index + 1}位は${card}` : `${index + 1}位のカードを表にする`);
+        button.addEventListener("click", () => {
+          revealed[index] = true;
+          render();
+        });
+        row.className = "reveal-row";
+        row.append(rank, button);
+        revealList.append(row);
+      }
+    }
+
+    modeButton.addEventListener("click", () => {
+      displayMode = !displayMode;
+      if (displayMode) revealed.fill(false);
+      render();
+    });
+
+    resetButton.addEventListener("click", () => {
+      selected.length = 0;
+      revealed.fill(false);
+      displayMode = false;
+      render();
+    });
+
+    render();
+  </script>
+</body>
+</html>
