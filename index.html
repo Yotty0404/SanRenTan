@@ -208,6 +208,24 @@
       cursor: default;
     }
 
+    [data-card="A"] { --card-bg: #f9f9f9; --card-text: #252525; }
+    [data-card="B"] { --card-bg: #292a2d; --card-text: #fff; }
+    [data-card="C"] { --card-bg: #f44742; --card-text: #fff; }
+    [data-card="D"] { --card-bg: #2475c9; --card-text: #fff; }
+    [data-card="E"] { --card-bg: #f9e731; --card-text: #252525; }
+    [data-card="F"] { --card-bg: #56b950; --card-text: #173a1b; }
+    [data-card="G"] { --card-bg: #ffa238; --card-text: #432b0d; }
+
+    .choice-card[data-card],
+    .selected-card.has-card[data-card],
+    .reveal-card.is-revealed[data-card] {
+      color: var(--card-text);
+      background: var(--card-bg);
+      border-color: #0002;
+    }
+
+    .choice-card:disabled { opacity: .5; }
+
     [hidden] { display: none !important; }
 
     @media (max-width: 340px) {
@@ -276,6 +294,7 @@
         label.textContent = `${index + 1}位`;
         button.type = "button";
         button.className = `selected-card${card ? " has-card" : ""}`;
+        if (card) button.dataset.card = card;
         button.textContent = card || "";
         button.disabled = !card;
         button.setAttribute("aria-label", card ? `${index + 1}位の${card}を取り消す` : `${index + 1}位は未選択`);
@@ -292,6 +311,7 @@
         const button = document.createElement("button");
         button.type = "button";
         button.className = "choice-card";
+        button.dataset.card = card;
         button.textContent = card;
         button.disabled = selected.includes(card) || selected.length === 3;
         button.setAttribute("aria-label", selected.includes(card) ? `${card} 選択済み` : `${card}を選ぶ`);
@@ -312,6 +332,7 @@
         rank.textContent = index + 1;
         button.type = "button";
         button.className = `reveal-card${!card ? " is-empty" : revealed[index] ? " is-revealed" : ""}`;
+        if (card && revealed[index]) button.dataset.card = card;
         button.textContent = card && revealed[index] ? card : "";
         button.disabled = !card || revealed[index];
         button.setAttribute("aria-label", !card ? `${index + 1}位は未選択` : revealed[index] ? `${index + 1}位は${card}` : `${index + 1}位のカードを表にする`);
